@@ -1,5 +1,5 @@
 // ContactView.ts
-import { Application, Graphics, Text } from "pixi.js";
+import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
 import { 
   createCustomCanvas, 
   CanvasConfig, 
@@ -9,7 +9,15 @@ import {
 export const CONTACT_VIEW_ID = "contact-view-container";
 
 class ContactContentProvider implements ViewContentProvider {
-  async setupContent(app: Application): Promise<void> {
+  async setupContent(app: Application): Promise<void> {    // Load and setup background
+    const backgroundTexture = await Assets.load("/assets/background_3.png");
+    const background = new Sprite(backgroundTexture);
+    background.anchor.set(0.5); // Center the anchor point
+    background.position.set(app.screen.width / 2, app.screen.height / 2); // Position at screen center
+    background.width = background.width * 2; // Scale to fit screen width
+    background.height = background.height * 2; // Scale to fit screen height
+    app.stage.addChild(background);
+
     // Create contact form background
     const formBg = new Graphics();
     formBg.beginFill(0x2e7d32, 0.9);

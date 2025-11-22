@@ -64,8 +64,6 @@ export async function createMenuCanvas(
     position: "fixed",
     top: "8px",
     left: "8px",
-    width: "36px",
-    height: "36px",
     borderRadius: "6px",
     border: "none",
     background: "#37474f",
@@ -73,15 +71,28 @@ export async function createMenuCanvas(
     fontSize: "18px",
     zIndex: "1100",
     cursor: "pointer",
-  });
-  document.body.appendChild(toggle);
+  });  document.body.appendChild(toggle);
 
-  let visible = true;
+  let visible = false;
+  // Set initial state to closed
+  toggle.style.width = "60px";
+  toggle.style.height = "60px";
+  (app.view as HTMLCanvasElement).style.transform = "translateX(-150px)";
+  toggle.innerText = "☰";
+  
   const toggleMenu = () => {
     visible = !visible;
-    if (visible) {
+    if (visible) 
+    {
+      toggle.style.width = "36px";
+      toggle.style.height = "36px";
       (app.view as HTMLCanvasElement).style.transform = "translateX(0)";
-      toggle.innerText = "×";    } else {
+      toggle.innerText = "×";
+    } 
+    else
+    {
+      toggle.style.width = "60px";
+      toggle.style.height = "60px";
       (app.view as HTMLCanvasElement).style.transform = "translateX(-150px)";
       toggle.innerText = "☰";
     }

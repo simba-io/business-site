@@ -35,7 +35,6 @@ export async function createStandardCanvas(
   // Set the canvas size to match the container
   app.renderer.resize(container.clientWidth, container.clientHeight);
   container.appendChild(app.canvas);
-
   // Load the bunny texture
   const texture = await Assets.load("/assets/bunny.png");
 
