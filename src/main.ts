@@ -3,10 +3,12 @@ import { createBioView, BIO_VIEW_ID } from "./BioView";
 import { createMenuCanvas, MENU_CANVAS_ID } from "./MenuCanvas";
 import { createContactView, CONTACT_VIEW_ID } from "./ContactView";
 import { createCanvasContainer } from "./CanvasUtils";
+import { createProductView, PRODUCT_VIEW_ID } from "./ProductsView";
 
 const components = [
   { label: "Splash", id: SPLASH_VIEW_ID },
   { label: "Bio", id: BIO_VIEW_ID },
+  { label: "Products", id: PRODUCT_VIEW_ID },
   { label: "Contact", id: CONTACT_VIEW_ID }
 ];
 
@@ -27,6 +29,10 @@ const components = [
   // Create bio view with standardized styling
   const bioContainer = createCanvasContainer(mainContainer, BIO_VIEW_ID);
   await createBioView(bioContainer);
+
+  // Create product view with standardized styling
+  const productContainer = createCanvasContainer(mainContainer, PRODUCT_VIEW_ID);
+  await createProductView(productContainer);
 
   // Create contact view with standardized styling
   const contactContainer = createCanvasContainer(

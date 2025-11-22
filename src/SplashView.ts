@@ -14,7 +14,7 @@ class SplashContentProvider implements ViewContentProvider {  async setupContent
     const scale = getResponsiveScale();
     
     // Load the background and bunny textures
-    const backgroundTexture = await Assets.load("/assets/background_1.png");
+    const backgroundTexture = await Assets.load("/assets/background_3.png");
     const background = new Sprite(backgroundTexture);
 
     background.anchor.set(0.5);
@@ -46,7 +46,9 @@ class SplashContentProvider implements ViewContentProvider {  async setupContent
         fontSize: 48 * scale.textScale,
         fontFamily: "Arial",
         fontWeight: "bold",
-      },    });
+      }
+    });
+
     welcomeText.anchor.set(0.5);
     welcomeText.position.set(app.screen.width / 2, app.screen.height / 2);
     app.stage.addChild(welcomeText);

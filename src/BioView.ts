@@ -14,7 +14,7 @@ class BioContentProvider implements ViewContentProvider {  async setupContent(ap
     const scale = getResponsiveScale();
     
     // Load and setup background
-    const backgroundTexture = await Assets.load("/assets/background_2.png");
+    const backgroundTexture = await Assets.load("/assets/background_4.png");
     const background = new Sprite(backgroundTexture);
     background.anchor.set(0.5);
     background.position.set(app.screen.width / 2, app.screen.height / 2);

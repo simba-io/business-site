@@ -1,4 +1,4 @@
-// ContactView.ts
+// ProductView.ts
 import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
 import { 
   createCustomCanvas, 
@@ -7,14 +7,14 @@ import {
   getResponsiveScale
 } from "./CanvasUtils";
 
-export const CONTACT_VIEW_ID = "contact-view-container";
+export const PRODUCT_VIEW_ID = "product-view-container";
 
-class ContactContentProvider implements ViewContentProvider {  async setupContent(app: Application): Promise<void> {
+class ProductContentProvider implements ViewContentProvider {  async setupContent(app: Application): Promise<void> {
     // Get responsive scale factors
     const scale = getResponsiveScale();
     
     // Load and setup background
-    const backgroundTexture = await Assets.load("/assets/background_1.png");
+    const backgroundTexture = await Assets.load("/assets/background_2.png");
     const background = new Sprite(backgroundTexture);
     background.anchor.set(0.5);
     background.position.set(app.screen.width / 2, app.screen.height / 2);
@@ -26,7 +26,7 @@ class ContactContentProvider implements ViewContentProvider {  async setupConten
     const cardWidth = scale.cardWidth;
     const cardHeight = scale.cardHeight;
     const formBg = new Graphics();
-    formBg.beginFill(0x2e7d32, 0.9);
+    formBg.beginFill(0x1e88e5, 0.9);
     formBg.drawRoundedRect(
       app.screen.width / 2 - cardWidth / 2,
       app.screen.height / 2 - cardHeight / 2,
@@ -37,7 +37,7 @@ class ContactContentProvider implements ViewContentProvider {  async setupConten
     formBg.endFill();
     app.stage.addChild(formBg);    // Add responsive contact title
     const contactTitle = new Text({
-      text: "Get In Touch",
+      text: "Products & Services",
       style: {
         fill: "#ffffff",
         fontSize: 32 * scale.textScale,
@@ -48,21 +48,6 @@ class ContactContentProvider implements ViewContentProvider {  async setupConten
     contactTitle.anchor.set(0.5);
     contactTitle.position.set(app.screen.width / 2, app.screen.height / 2 - 80 * scale.spacing);
     app.stage.addChild(contactTitle);
-
-    // Add responsive contact information
-    const contactInfo = new Text({
-      text: "📧 email@example.com\n📞 +1 (555) 123-4567\n🌐 www.mywebsite.com",
-      style: {
-        fill: "#ffffff",
-        fontSize: 20,
-        fontFamily: "Arial",
-        align: "left",
-        lineHeight: 35,
-      },
-    });
-    contactInfo.anchor.set(0.5);
-    contactInfo.position.set(app.screen.width / 2, app.screen.height / 2 + 20);
-    app.stage.addChild(contactInfo);
 
     // Add animated border effect
     const borderGraphics = new Graphics();
@@ -93,12 +78,12 @@ class ContactContentProvider implements ViewContentProvider {  async setupConten
   }
 }
 
-export async function createContactView(container: HTMLElement) {
+export async function createProductView(container: HTMLElement) {
   const config: CanvasConfig = {
     backgroundColor: "#43a047",
-    containerId: CONTACT_VIEW_ID,
+    containerId: PRODUCT_VIEW_ID,
   };
 
-  const contentProvider = new ContactContentProvider();
+  const contentProvider = new ProductContentProvider();
   return await createCustomCanvas(container, config, contentProvider);
 }
