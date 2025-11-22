@@ -3,57 +3,63 @@ import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
 import { 
   createCustomCanvas, 
   CanvasConfig, 
-  ViewContentProvider 
+  ViewContentProvider,
+  getResponsiveScale
 } from "./CanvasUtils";
 
 export const BIO_VIEW_ID = "bio-view-container";
 
-class BioContentProvider implements ViewContentProvider {
-  async setupContent(app: Application): Promise<void> {    // Load and setup background
+class BioContentProvider implements ViewContentProvider {  async setupContent(app: Application): Promise<void> {
+    // Get responsive scale factors
+    const scale = getResponsiveScale();
+    
+    // Load and setup background
     const backgroundTexture = await Assets.load("/assets/background_2.png");
     const background = new Sprite(backgroundTexture);
-    background.anchor.set(0.5); // Center the anchor point
-    background.position.set(app.screen.width / 2, app.screen.height / 2); // Position at screen center
-    background.width = background.width * 2; // Scale to fit screen width
-    background.height = background.height * 2; // Scale to fit screen height
+    background.anchor.set(0.5);
+    background.position.set(app.screen.width / 2, app.screen.height / 2);
+    background.width = background.width * 2;
+    background.height = background.height * 2;
     app.stage.addChild(background);
 
-    // Create contact form background
+    // Create responsive profile card background
+    const cardWidth = scale.cardWidth;
+    const cardHeight = scale.cardHeight;
     const cardBg = new Graphics();
     cardBg.beginFill(0xD81B60, 0.9);
     cardBg.drawRoundedRect(
-      app.screen.width / 2 - 250,
-      app.screen.height / 2 - 150,
-      500,
-      300,
-      20,
+      app.screen.width / 2 - cardWidth / 2,
+      app.screen.height / 2 - cardHeight / 2,
+      cardWidth,
+      cardHeight,
+      20 * scale.elementScale,
     );
     cardBg.endFill();
-    app.stage.addChild(cardBg);
-
-    // Add contact title
+    app.stage.addChild(cardBg);    // Add responsive bio title
     const bioTitle = new Text({
       text: "About Us",
       style: {
         fill: "#ffffff",
-        fontSize: 36,
+        fontSize: 36 * scale.textScale,
         fontFamily: "Arial",
-        fontWeight: "bold",
+        fontWeight: "bold"
       },
     });
     bioTitle.anchor.set(0.5);
-    bioTitle.position.set(app.screen.width / 2, app.screen.height / 2 - 100);
+    bioTitle.position.set(app.screen.width / 2, app.screen.height / 2 - 80 * scale.spacing);
     app.stage.addChild(bioTitle);
 
-    // Add contact information
+    // Add responsive bio content
     const bioContent = new Text({
-      text: "I'm a passionate developer\nwith expertise in web technologies.\n\nI love creating innovative solutions\nand building amazing experiences.",
+      text: scale.isMobile 
+        ? "Passionate developer\nwith web expertise.\n\nCreating innovative\nsolutions & experiences."
+        : "I'm a passionate developer\nwith expertise in web technologies.\n\nI love creating innovative solutions\nand building amazing experiences.",
       style: {
         fill: "#ffffff",
-        fontSize: 18,
+        fontSize: 18 * scale.textScale,
         fontFamily: "Arial",
-        align: "left",
-        lineHeight: 28,
+        align: "center",
+        lineHeight: 20,
       },
     });
     bioContent.anchor.set(0.5);

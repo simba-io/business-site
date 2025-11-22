@@ -3,51 +3,57 @@ import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
 import { 
   createCustomCanvas, 
   CanvasConfig, 
-  ViewContentProvider 
+  ViewContentProvider,
+  getResponsiveScale
 } from "./CanvasUtils";
 
 export const CONTACT_VIEW_ID = "contact-view-container";
 
-class ContactContentProvider implements ViewContentProvider {
-  async setupContent(app: Application): Promise<void> {    // Load and setup background
+class ContactContentProvider implements ViewContentProvider {  async setupContent(app: Application): Promise<void> {
+    // Get responsive scale factors
+    const scale = getResponsiveScale();
+    
+    // Load and setup background
     const backgroundTexture = await Assets.load("/assets/background_3.png");
     const background = new Sprite(backgroundTexture);
-    background.anchor.set(0.5); // Center the anchor point
-    background.position.set(app.screen.width / 2, app.screen.height / 2); // Position at screen center
-    background.width = background.width * 2; // Scale to fit screen width
-    background.height = background.height * 2; // Scale to fit screen height
+    background.anchor.set(0.5);
+    background.position.set(app.screen.width / 2, app.screen.height / 2);
+    background.width = background.width * 2;
+    background.height = background.height * 2;
     app.stage.addChild(background);
 
-    // Create contact form background
+    // Create responsive contact form background
+    const cardWidth = scale.cardWidth;
+    const cardHeight = scale.cardHeight;
     const formBg = new Graphics();
     formBg.beginFill(0x2e7d32, 0.9);
     formBg.drawRoundedRect(
-      app.screen.width / 2 - 250,
-      app.screen.height / 2 - 150,
-      500,
-      300,
-      20,
+      app.screen.width / 2 - cardWidth / 2,
+      app.screen.height / 2 - cardHeight / 2,
+      cardWidth,
+      cardHeight,
+      20 * scale.elementScale,
     );
     formBg.endFill();
-    app.stage.addChild(formBg);
-
-    // Add contact title
+    app.stage.addChild(formBg);    // Add responsive contact title
     const contactTitle = new Text({
       text: "Get In Touch",
       style: {
         fill: "#ffffff",
-        fontSize: 32,
+        fontSize: 32 * scale.textScale,
         fontFamily: "Arial",
         fontWeight: "bold",
       },
     });
     contactTitle.anchor.set(0.5);
-    contactTitle.position.set(app.screen.width / 2, app.screen.height / 2 - 100);
+    contactTitle.position.set(app.screen.width / 2, app.screen.height / 2 - 80 * scale.spacing);
     app.stage.addChild(contactTitle);
 
-    // Add contact information
+    // Add responsive contact information
     const contactInfo = new Text({
-      text: "📧 email@example.com\n📞 +1 (555) 123-4567\n🌐 www.mywebsite.com\n📍 123 Main St, City, State",
+      text: scale.isMobile
+        ? "📧 email@example.com\n📞 +1 (555) 123-4567\n🌐 www.mywebsite.com"
+        : "📧 email@example.com\n📞 +1 (555) 123-4567\n🌐 www.mywebsite.com\n📍 123 Main St, City, State",
       style: {
         fill: "#ffffff",
         fontSize: 20,

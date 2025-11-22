@@ -1,5 +1,5 @@
 // CanvasUtils.ts - Standardized canvas styling and creation utilities
-import { Application, Assets, Sprite } from "pixi.js";
+import {Application} from "pixi.js";
 
 export interface CanvasConfig {
   backgroundColor: string;
@@ -10,6 +10,31 @@ export interface CanvasConfig {
 
 export interface ViewContentProvider {
   setupContent(app: Application): Promise<void>;
+}
+
+// Device detection utility
+export function isMobileDevice(): boolean {
+  // Check screen width (primary method)
+  if (window.innerWidth <= 768) return true;
+  
+  // Check user agent as secondary method
+  const userAgent = navigator.userAgent.toLowerCase();
+  const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
+  
+  return mobileKeywords.some(keyword => userAgent.includes(keyword));
+}
+
+// Get responsive scale factors
+export function getResponsiveScale() {
+  const isMobile = isMobileDevice();
+  return {
+    isMobile,
+    textScale: isMobile ? 0.7 : 1,
+    elementScale: isMobile ? 0.8 : 1,
+    spacing: isMobile ? 0.6 : 1,
+    cardWidth: isMobile ? 300 : 500,
+    cardHeight: isMobile ? 200 : 300,
+  };
 }
 
 export const CANVAS_STYLES = {
@@ -35,25 +60,7 @@ export async function createStandardCanvas(
   // Set the canvas size to match the container
   app.renderer.resize(container.clientWidth, container.clientHeight);
   container.appendChild(app.canvas);
-  // Load the bunny texture
-  const texture = await Assets.load("/assets/bunny.png");
 
-  // Create a bunny Sprite
-  const bunny = new Sprite(texture);
-
-  // Center the sprite's anchor point
-  bunny.anchor.set(0.5);
-
-  // Move the sprite to the center of the screen
-  bunny.position.set(app.screen.width / 2, app.screen.height / 2);
-
-  // Add the bunny to the stage
-  app.stage.addChild(bunny);
-
-  // Listen for animate update with standard rotation speed
-  app.ticker.add((time) => {
-    bunny.rotation += 0.1 * time.deltaTime;
-  });
   return app;
 }
 

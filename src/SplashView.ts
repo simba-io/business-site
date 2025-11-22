@@ -3,47 +3,52 @@ import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
 import { 
   createCustomCanvas, 
   CanvasConfig, 
-  ViewContentProvider 
+  ViewContentProvider,
+  getResponsiveScale
 } from "./CanvasUtils";
 
 export const SPLASH_VIEW_ID = "splash-view-container";
 
-class SplashContentProvider implements ViewContentProvider {
-  async setupContent(app: Application): Promise<void> {
+class SplashContentProvider implements ViewContentProvider {  async setupContent(app: Application): Promise<void> {
+    // Get responsive scale factors
+    const scale = getResponsiveScale();
+    
     // Load the background and bunny textures
     const backgroundTexture = await Assets.load("/assets/background_1.png");
     const background = new Sprite(backgroundTexture);
 
-    background.anchor.set(0.5); // Center the anchor point
-    background.position.set(app.screen.width / 2, app.screen.height / 2); // Position at screen center
-    background.width = background.width * 2; // Scale to fit screen width
-    background.height = background.height * 2; // Scale to fit screen height
+    background.anchor.set(0.5);
+    background.position.set(app.screen.width / 2, app.screen.height / 2);
+    background.width = background.width * 2;
+    background.height = background.height * 2;
     app.stage.addChild(background);
 
+    // Create responsive card
+    const cardWidth = scale.cardWidth * 1.1;
+    const cardHeight = scale.cardHeight * 0.5; // Shorter for splash
     const card = new Graphics();
     card.beginFill(0xFFA500, 0.9);
     card.drawRoundedRect(
-      app.screen.width / 2 - 250,
-      app.screen.height / 2 - 150,
-      500,
-      100,
-      20,
+      app.screen.width / 2 - cardWidth / 2,
+      app.screen.height / 2 - cardHeight / 2,
+      cardWidth,
+      cardHeight,
+      20 * scale.elementScale,
     );
     card.endFill();
     app.stage.addChild(card);
     
-    // Add a welcome text
+    // Add responsive welcome text
     const welcomeText = new Text({
       text: "We Make Websites!",
       style: {
         fill: "#ffffff",
-        fontSize: 48,
+        fontSize: 48 * scale.textScale,
         fontFamily: "Arial",
         fontWeight: "bold",
-      },
-    });
+      },    });
     welcomeText.anchor.set(0.5);
-    welcomeText.position.set(app.screen.width / 2, app.screen.height / 2 - 100);
+    welcomeText.position.set(app.screen.width / 2, app.screen.height / 2);
     app.stage.addChild(welcomeText);
 
     let textScale = 1;
