@@ -7,7 +7,7 @@ import { createCanvasContainer } from "./CanvasUtils";
 const components = [
   { label: "Splash", id: SPLASH_VIEW_ID },
   { label: "Bio", id: BIO_VIEW_ID },
-  { label: "Contact", id: CONTACT_VIEW_ID },
+  { label: "Contact", id: CONTACT_VIEW_ID }
 ];
 
 (async () => {

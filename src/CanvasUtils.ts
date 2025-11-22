@@ -8,6 +8,10 @@ export interface CanvasConfig {
   height?: number;
 }
 
+export interface ViewContentProvider {
+  setupContent(app: Application): Promise<void>;
+}
+
 export const CANVAS_STYLES = {
   width: "100%",
   height: "100%",
@@ -50,6 +54,29 @@ export async function createStandardCanvas(
   app.ticker.add((time) => {
     bunny.rotation += 0.1 * time.deltaTime;
   });
+  return app;
+}
+
+export async function createCustomCanvas(
+  container: HTMLElement,
+  config: CanvasConfig,
+  contentProvider: ViewContentProvider,
+) {
+  // Create a new application
+  const app = new Application();
+
+  // Initialize the application with standard settings
+  await app.init({
+    background: config.backgroundColor,
+    resizeTo: window,
+  });
+
+  // Set the canvas size to match the container
+  app.renderer.resize(container.clientWidth, container.clientHeight);
+  container.appendChild(app.canvas);
+
+  // Let the view implement its own content
+  await contentProvider.setupContent(app);
 
   return app;
 }
