@@ -1,6 +1,11 @@
 // BioView.ts
 import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
-import {createCustomCanvas, CanvasConfig, ViewContentProvider, getResponsiveScale} from "./CanvasUtils";
+import {
+  createCustomCanvas,
+  CanvasConfig,
+  ViewContentProvider,
+  getResponsiveScale
+} from "./CanvasUtils";
 
 export const BIO_VIEW_ID = "bio-view-container";
 
