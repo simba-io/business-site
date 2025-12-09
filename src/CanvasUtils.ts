@@ -1,5 +1,5 @@
 // CanvasUtils.ts - Standardized canvas styling and creation utilities
-import {Application} from "pixi.js";
+import { Application } from "pixi.js";
 
 export interface CanvasConfig {
   backgroundColor: string;
@@ -16,12 +16,20 @@ export interface ViewContentProvider {
 export function isMobileDevice(): boolean {
   // Check screen width (primary method)
   if (window.innerWidth <= 768) return true;
-  
+
   // Check user agent as secondary method
   const userAgent = navigator.userAgent.toLowerCase();
-  const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone'];
-  
-  return mobileKeywords.some(keyword => userAgent.includes(keyword));
+  const mobileKeywords = [
+    "mobile",
+    "android",
+    "iphone",
+    "ipad",
+    "ipod",
+    "blackberry",
+    "windows phone",
+  ];
+
+  return mobileKeywords.some((keyword) => userAgent.includes(keyword));
 }
 
 // Get responsive scale factors
@@ -41,7 +49,7 @@ export const CANVAS_STYLES = {
   width: "100%",
   height: "100%",
   marginTop: "0",
-  marginBottom: "0"
+  marginBottom: "0",
 } as const;
 
 export async function createStandardCanvas(

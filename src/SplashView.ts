@@ -1,18 +1,19 @@
 // SplashView.ts
 import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
-import { 
-  createCustomCanvas, 
-  CanvasConfig, 
+import {
+  createCustomCanvas,
+  CanvasConfig,
   ViewContentProvider,
-  getResponsiveScale
+  getResponsiveScale,
 } from "./CanvasUtils";
 
 export const SPLASH_VIEW_ID = "splash-view-container";
 
-class SplashContentProvider implements ViewContentProvider {  async setupContent(app: Application): Promise<void> {
+class SplashContentProvider implements ViewContentProvider {
+  async setupContent(app: Application): Promise<void> {
     // Get responsive scale factors
     const scale = getResponsiveScale();
-    
+
     // Load the background and bunny textures
     const backgroundTexture = await Assets.load("/assets/background_3.png");
     const background = new Sprite(backgroundTexture);
@@ -27,7 +28,7 @@ class SplashContentProvider implements ViewContentProvider {  async setupContent
     const cardWidth = scale.cardWidth * 1.1;
     const cardHeight = scale.cardHeight * 0.5; // Shorter for splash
     const card = new Graphics();
-    card.beginFill(0xFFA500, 0.9);
+    card.beginFill(0xffa500, 0.9);
     card.drawRoundedRect(
       app.screen.width / 2 - cardWidth / 2,
       app.screen.height / 2 - cardHeight / 2,
@@ -37,7 +38,7 @@ class SplashContentProvider implements ViewContentProvider {  async setupContent
     );
     card.endFill();
     app.stage.addChild(card);
-    
+
     // Add responsive welcome text
     const welcomeText = new Text({
       text: "We Make Websites!",
@@ -46,7 +47,7 @@ class SplashContentProvider implements ViewContentProvider {  async setupContent
         fontSize: 48 * scale.textScale,
         fontFamily: "Arial",
         fontWeight: "bold",
-      }
+      },
     });
 
     welcomeText.anchor.set(0.5);
@@ -68,7 +69,7 @@ class SplashContentProvider implements ViewContentProvider {  async setupContent
 export async function createSplashView(container: HTMLElement) {
   const config: CanvasConfig = {
     backgroundColor: "#1099bb",
-    containerId: SPLASH_VIEW_ID
+    containerId: SPLASH_VIEW_ID,
   };
 
   const contentProvider = new SplashContentProvider();

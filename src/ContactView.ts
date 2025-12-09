@@ -1,18 +1,19 @@
 // ContactView.ts
 import { Application, Assets, Graphics, Sprite, Text } from "pixi.js";
-import { 
-  createCustomCanvas, 
-  CanvasConfig, 
+import {
+  createCustomCanvas,
+  CanvasConfig,
   ViewContentProvider,
-  getResponsiveScale
+  getResponsiveScale,
 } from "./CanvasUtils";
 
 export const CONTACT_VIEW_ID = "contact-view-container";
 
-class ContactContentProvider implements ViewContentProvider {  async setupContent(app: Application): Promise<void> {
+class ContactContentProvider implements ViewContentProvider {
+  async setupContent(app: Application): Promise<void> {
     // Get responsive scale factors
     const scale = getResponsiveScale();
-    
+
     // Load and setup background
     const backgroundTexture = await Assets.load("/assets/background_1.png");
     const background = new Sprite(backgroundTexture);
@@ -35,7 +36,7 @@ class ContactContentProvider implements ViewContentProvider {  async setupConten
       20 * scale.elementScale,
     );
     formBg.endFill();
-    app.stage.addChild(formBg);    // Add responsive contact title
+    app.stage.addChild(formBg); // Add responsive contact title
     const contactTitle = new Text({
       text: "Get In Touch",
       style: {
@@ -46,7 +47,10 @@ class ContactContentProvider implements ViewContentProvider {  async setupConten
       },
     });
     contactTitle.anchor.set(0.5);
-    contactTitle.position.set(app.screen.width / 2, app.screen.height / 2 - 80 * scale.spacing);
+    contactTitle.position.set(
+      app.screen.width / 2,
+      app.screen.height / 2 - 80 * scale.spacing,
+    );
     app.stage.addChild(contactTitle);
 
     // Add responsive contact information
@@ -67,26 +71,36 @@ class ContactContentProvider implements ViewContentProvider {  async setupConten
     // Add animated border effect
     const borderGraphics = new Graphics();
     app.stage.addChild(borderGraphics);
-    
+
     let borderAnimation = 0;
     app.ticker.add((time) => {
       borderAnimation += 0.05 * time.deltaTime;
-      
+
       borderGraphics.clear();
       borderGraphics.lineStyle(3, 0x81c784, 0.8);
-      
+
       const progress = (Math.sin(borderAnimation) + 1) / 2;
       const dashLength = 20;
       const gapLength = 10;
-      const totalLength = (dashLength + gapLength);
-      
+      const totalLength = dashLength + gapLength;
+
       // Animate dashed border around the form
       for (let i = 0; i < 20; i++) {
-        const offset = (progress * totalLength + i * totalLength) % (500 + 300) * 2;
+        const offset =
+          ((progress * totalLength + i * totalLength) % (500 + 300)) * 2;
         if (offset < 500) {
           // Top edge
-          borderGraphics.moveTo(app.screen.width / 2 - 250 + offset, app.screen.height / 2 - 150);
-          borderGraphics.lineTo(Math.min(app.screen.width / 2 - 250 + offset + dashLength, app.screen.width / 2 + 250), app.screen.height / 2 - 150);
+          borderGraphics.moveTo(
+            app.screen.width / 2 - 250 + offset,
+            app.screen.height / 2 - 150,
+          );
+          borderGraphics.lineTo(
+            Math.min(
+              app.screen.width / 2 - 250 + offset + dashLength,
+              app.screen.width / 2 + 250,
+            ),
+            app.screen.height / 2 - 150,
+          );
         }
       }
     });

@@ -5,7 +5,8 @@ export const MENU_CANVAS_ID = "menu-canvas-container";
 export async function createMenuCanvas(
   container: HTMLElement,
   components: Array<{ label: string; id: string }>,
-) {  // Create a new application for the menu
+) {
+  // Create a new application for the menu
   const app = new Application();
   await app.init({
     background: "#263238",
@@ -20,7 +21,7 @@ export async function createMenuCanvas(
   app.view.style.width = "150px";
   app.view.style.zIndex = "1000";
   app.view.style.transition = "transform 220ms ease";
-  container.appendChild(app.view as HTMLCanvasElement);  // Create menu options based on passed components
+  container.appendChild(app.view as HTMLCanvasElement); // Create menu options based on passed components
   components.forEach((option, i) => {
     const button = new Graphics();
     button.beginFill(0x37474f);
@@ -71,7 +72,8 @@ export async function createMenuCanvas(
     fontSize: "18px",
     zIndex: "1100",
     cursor: "pointer",
-  });  document.body.appendChild(toggle);
+  });
+  document.body.appendChild(toggle);
 
   let visible = false;
   // Set initial state to closed
@@ -79,18 +81,15 @@ export async function createMenuCanvas(
   toggle.style.height = "60px";
   (app.view as HTMLCanvasElement).style.transform = "translateX(-150px)";
   toggle.innerText = "☰";
-  
+
   const toggleMenu = () => {
     visible = !visible;
-    if (visible) 
-    {
+    if (visible) {
       toggle.style.width = "36px";
       toggle.style.height = "36px";
       (app.view as HTMLCanvasElement).style.transform = "translateX(0)";
       toggle.innerText = "×";
-    } 
-    else
-    {
+    } else {
       toggle.style.width = "60px";
       toggle.style.height = "60px";
       (app.view as HTMLCanvasElement).style.transform = "translateX(-150px)";
@@ -112,7 +111,8 @@ export async function createMenuCanvas(
     window.removeEventListener("resize", onResize);
     try {
       app.destroy(true, { children: true, texture: true });
+    } catch {
+      // Optionally log or handle error
     }
-    catch {}
   };
 }

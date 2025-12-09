@@ -9,7 +9,7 @@ const components = [
   { label: "Splash", id: SPLASH_VIEW_ID },
   { label: "Bio", id: BIO_VIEW_ID },
   { label: "Products", id: PRODUCT_VIEW_ID },
-  { label: "Contact", id: CONTACT_VIEW_ID }
+  { label: "Contact", id: CONTACT_VIEW_ID },
 ];
 
 (async () => {
@@ -31,7 +31,10 @@ const components = [
   await createBioView(bioContainer);
 
   // Create product view with standardized styling
-  const productContainer = createCanvasContainer(mainContainer, PRODUCT_VIEW_ID);
+  const productContainer = createCanvasContainer(
+    mainContainer,
+    PRODUCT_VIEW_ID,
+  );
   await createProductView(productContainer);
 
   // Create contact view with standardized styling
