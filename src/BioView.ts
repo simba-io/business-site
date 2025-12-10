@@ -4,15 +4,13 @@ import {
   createCustomCanvas,
   CanvasConfig,
   ViewContentProvider,
-  getResponsiveScale
+  getResponsiveScale,
 } from "./CanvasUtils";
 
 export const BIO_VIEW_ID = "bio-view-container";
 
-class BioContentProvider implements ViewContentProvider
-{
-  async setupContent(app: Application): Promise<void>
-  {
+class BioContentProvider implements ViewContentProvider {
+  async setupContent(app: Application): Promise<void> {
     // Get responsive scale factors
     const scale = getResponsiveScale();
 
