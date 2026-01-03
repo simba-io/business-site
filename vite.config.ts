@@ -1,15 +1,10 @@
 import { defineConfig } from "vite";
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  // This ensures your assets load correctly on GitHub Pages
+  // The base must match your GitHub repository name
   base: "/business-site/",
-
   build: {
-    // Optional: Better compatibility for Pixi.js 8
-    target: "esnext",
-  },
-
-  server: {
-    open: true, // Opens the browser automatically when you run 'npm run dev'
+    outDir: "dist",
   },
 });
